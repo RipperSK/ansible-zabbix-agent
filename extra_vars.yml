@@ -1,0 +1,5 @@
+ansible_become: true
+ansible_become_method: sudo
+ansible_user: DEFINE
+ansible_ssh_private_key_file: DEFINE
+ansible_become_password: DEFINE

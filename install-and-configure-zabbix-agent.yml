@@ -1,0 +1,27 @@
+---
+- name: "Install and configure zabbix-agent for intentory servers"
+  hosts: all
+
+  tasks:
+  - set_fact:
+    zabbix_server="DEFINE"
+  - name: "Install zabbix-agent package"
+    package:
+      name: zabbix-agent
+      state: present
+  - name: "Push zabbix PSK file"
+    copy:
+      remote_src: no
+      src: ./zabbix_agent.psk
+      dest: /etc/zabbix/zabbix_agentd.psk
+      owner: zabbix
+      group: zabbix
+      mode: '0600'
+  - name: "Push zabbix agent conf via template"
+    template:
+      src: ./zabbix_agent.conf.j2
+      dest: /etc/zabbix/zabbix_agentd.conf
+  - name: "Restart zabbix-agent service"
+    service:
+      name: zabbix-agent
+      state: restarted
